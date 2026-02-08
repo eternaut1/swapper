@@ -12,7 +12,10 @@ const styles = stylex.create({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBlock: space.xxl,
+    paddingBlock: {
+      default: space.xxl,
+      '@media (max-width: 600px)': space.lg,
+    },
   },
   logo: {
     fontSize: '18px',

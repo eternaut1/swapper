@@ -19,6 +19,10 @@ export interface DeBridgeEstimation {
   srcChainTokenIn?: DeBridgeTokenAmount;
   dstChainTokenOut?: DeBridgeTokenAmount;
   costsDetails?: DeBridgeCostDetail[];
+  /** Price impact in USD percentage (e.g. -0.08 means 0.08% loss) */
+  usdPriceImpact?: number;
+  /** Recommended slippage for this trade */
+  recommendedSlippage?: number;
 }
 
 export interface DeBridgeTokenAmount {
@@ -26,6 +30,7 @@ export interface DeBridgeTokenAmount {
   chainId?: string | number;
   amount?: string;
   recommendedAmount?: string;
+  approximateUsdValue?: number;
 }
 
 export interface DeBridgeCostDetail {

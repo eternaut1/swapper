@@ -110,6 +110,12 @@ export class DeBridgeProvider implements IBridgeProvider {
         const data = response.data;
         const dstOut = data.estimation?.dstChainTokenOut;
 
+        // DeBridge returns usdPriceImpact as negative (e.g. -0.08 = 0.08% loss)
+        const priceImpact =
+          data.estimation?.usdPriceImpact != null
+            ? Math.abs(data.estimation.usdPriceImpact)
+            : undefined;
+
         const quote: BridgeQuote = {
           provider: this.name,
           quoteId: data.orderId || `debridge-${Date.now()}`,
@@ -120,6 +126,7 @@ export class DeBridgeProvider implements IBridgeProvider {
           validUntil: new Date(Date.now() + QUOTE_VALIDITY_MS),
           route: this.parseRoute(data, params),
           estimatedCosts: await this.estimateCostsFromResponse(data),
+          priceImpact,
           rawQuote: {
             ...data,
             // Preserve request params that aren't echoed in response

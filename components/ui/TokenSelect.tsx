@@ -24,7 +24,10 @@ const styles = stylex.create({
     paddingTop: '12px',
     paddingBottom: '12px',
     paddingLeft: '12px',
-    paddingRight: '20px',
+    paddingRight: {
+      default: '20px',
+      '@media (max-width: 600px)': '12px',
+    },
     backgroundColor: colors.surfaceRaised,
     borderRadius: radii.full,
     border: 'none',
@@ -39,6 +42,12 @@ const styles = stylex.create({
     flexShrink: 0,
     ':hover': {
       backgroundColor: colors.surfaceOverlay,
+    },
+  },
+  triggerPlaceholderText: {
+    display: {
+      default: 'inline',
+      '@media (max-width: 600px)': 'none',
     },
   },
   triggerDisabled: {
@@ -57,7 +66,18 @@ const styles = stylex.create({
     top: '100%',
     left: 0,
     marginTop: space.xs,
-    minWidth: '280px',
+    minWidth: {
+      default: '280px',
+      '@media (max-width: 600px)': 0,
+    },
+    width: {
+      default: null,
+      '@media (max-width: 600px)': 'calc(100vw - 64px)',
+    },
+    right: {
+      default: null,
+      '@media (max-width: 600px)': 0,
+    },
     backgroundColor: colors.surface,
     borderWidth: '1px',
     borderStyle: 'solid',
@@ -273,7 +293,9 @@ export function TokenSelect({
           <span>{selected.symbol}</span>
         </>
       ) : (
-        <span {...stylex.props(styles.triggerPlaceholder)}>{placeholder}</span>
+        <span {...stylex.props(styles.triggerPlaceholder)}>
+          <span {...stylex.props(styles.triggerPlaceholderText)}>{placeholder}</span>
+        </span>
       )}
       <span {...stylex.props(styles.chevron)}>
         <ChevronDown />

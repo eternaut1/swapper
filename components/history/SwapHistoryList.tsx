@@ -61,7 +61,10 @@ const styles = stylex.create({
     backgroundColor: colors.surface,
     borderRadius: radii.lg,
     paddingBlock: space.xl,
-    paddingInline: space.xxl,
+    paddingInline: {
+      default: space.xxl,
+      '@media (max-width: 600px)': space.lg,
+    },
     display: 'flex',
     flexDirection: 'column',
     gap: space.lg,
@@ -98,7 +101,14 @@ const styles = stylex.create({
   },
   statsRow: {
     display: 'flex',
-    gap: space.xxl,
+    gap: {
+      default: space.xxl,
+      '@media (max-width: 600px)': space.md,
+    },
+    flexWrap: {
+      default: 'nowrap' as const,
+      '@media (max-width: 600px)': 'wrap' as const,
+    },
   },
   statCol: {
     display: 'flex',

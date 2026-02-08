@@ -24,7 +24,10 @@ const styles = stylex.create({
   card: {
     backgroundColor: colors.surface,
     borderRadius: radii.lg,
-    padding: space['3xl'],
+    padding: {
+      default: space['3xl'],
+      '@media (max-width: 600px)': space.lg,
+    },
     display: 'flex',
     flexDirection: 'column',
     gap: space.lg,

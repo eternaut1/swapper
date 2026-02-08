@@ -21,7 +21,7 @@ import {
   EconomicValidationError,
   InsufficientBalanceError,
   NotFoundError,
-  QuoteDriftError,
+  QuoteError,
   QuoteExpiredError,
   TransactionValidationError,
 } from '@/lib/errors';
@@ -141,7 +141,18 @@ export class SwapOrchestrator {
 
       const validation = await provider.validateQuote(quote);
       if (!feeValidator.validateQuoteDrift(validation)) {
-        throw new QuoteDriftError(validation.driftPercentage * 100);
+        if (validation.reason) {
+          throw new QuoteError(validation.reason);
+        }
+        const driftPct = (validation.driftPercentage * 100).toFixed(2);
+        const direction =
+          validation.currentDestAmount &&
+          BigInt(validation.currentDestAmount) < BigInt(quote.destAmount)
+            ? 'decreased'
+            : 'changed';
+        throw new QuoteError(
+          `Price ${direction} by ${driftPct}% since your quote. You would receive less than originally quoted. Please refresh and try again.`,
+        );
       }
 
       // 2. Extract request params and estimate costs
@@ -243,7 +254,7 @@ export class SwapOrchestrator {
         if (logs.includes('insufficient funds')) {
           const tokenLabel = feeToken === 'USDC' ? 'USDC' : 'SOL';
           throw new AppError(
-            `Insufficient ${tokenLabel} balance to cover the ${userFee.amount.toFixed(2)} ${tokenLabel} fee. Please top up your wallet and try again.`,
+            `Insufficient ${tokenLabel} balance to cover the ${parseFloat(userFee.amount.toFixed(6))} ${tokenLabel} fee. Please top up your wallet and try again.`,
             'INSUFFICIENT_BALANCE',
             400,
           );

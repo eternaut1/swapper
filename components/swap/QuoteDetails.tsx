@@ -60,6 +60,17 @@ const styles = stylex.create({
   countdown: {
     color: colors.amber,
   },
+  slippageWarning: {
+    color: colors.error,
+    fontWeight: 600,
+  },
+  slippageBanner: {
+    padding: space.md,
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    borderRadius: radii.sm,
+    fontSize: '13px',
+    color: colors.error,
+  },
 });
 
 interface QuoteDetailsProps {
@@ -96,6 +107,9 @@ export function QuoteDetails({
       rateText = `1 ${sourceSymbol} ≈ ${rateFormatted} ${destSymbol}`;
     }
   }
+
+  // Use provider-reported price impact (already an absolute percentage)
+  const priceImpact = quote.priceImpact ?? null;
 
   const formattedDest =
     destDecimals !== undefined
@@ -142,6 +156,20 @@ export function QuoteDetails({
               {secondsRemaining}s
             </span>
           </div>
+          {priceImpact !== null && priceImpact > 0.1 && (
+            <div {...stylex.props(styles.row)}>
+              <span {...stylex.props(styles.rowLabel)}>Price impact</span>
+              <span {...stylex.props(styles.rowValue, priceImpact > 1 && styles.slippageWarning)}>
+                -{priceImpact.toFixed(2)}%
+              </span>
+            </div>
+          )}
+          {priceImpact !== null && priceImpact > 3 && (
+            <div {...stylex.props(styles.slippageBanner)}>
+              High slippage: you are losing ~{priceImpact.toFixed(1)}% on this swap. Consider
+              reducing the amount or trying again later.
+            </div>
+          )}
         </div>
       )}
     </div>

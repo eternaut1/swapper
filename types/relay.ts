@@ -15,6 +15,16 @@ export interface RelayQuoteDetails {
     amount?: string;
   };
   timeEstimate?: number;
+  /** Swap-only price impact (excludes fees) */
+  swapImpact?: {
+    usd?: string;
+    percent?: string;
+  };
+  /** Total impact including fees */
+  totalImpact?: {
+    usd?: string;
+    percent?: string;
+  };
 }
 
 export interface RelayStep {

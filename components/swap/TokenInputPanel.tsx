@@ -55,7 +55,10 @@ const styles = stylex.create({
     borderStyle: 'solid',
     borderColor: colors.border,
     borderRadius: radii.md,
-    padding: space.xl,
+    padding: {
+      default: space.xl,
+      '@media (max-width: 600px)': space.md,
+    },
     display: 'flex',
     alignItems: 'center',
     gap: space.md,
@@ -73,7 +76,10 @@ const styles = stylex.create({
     borderWidth: 0,
     outline: 'none',
     color: colors.foreground,
-    fontSize: '30px',
+    fontSize: {
+      default: '30px',
+      '@media (max-width: 600px)': '22px',
+    },
     fontWeight: 600,
     fontFamily: 'inherit',
     padding: 0,

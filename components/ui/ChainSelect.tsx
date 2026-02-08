@@ -202,7 +202,10 @@ const styles = stylex.create({
     paddingTop: '12px',
     paddingBottom: '12px',
     paddingLeft: '12px',
-    paddingRight: '20px',
+    paddingRight: {
+      default: '20px',
+      '@media (max-width: 600px)': '12px',
+    },
     backgroundColor: colors.surfaceRaised,
     borderRadius: radii.full,
     borderWidth: 0,
@@ -217,6 +220,12 @@ const styles = stylex.create({
     flexShrink: 0,
     ':hover': {
       backgroundColor: colors.surfaceOverlay,
+    },
+  },
+  chainLabel: {
+    display: {
+      default: 'inline',
+      '@media (max-width: 600px)': 'none',
     },
   },
   triggerDisabled: {
@@ -334,7 +343,7 @@ export function ChainSelect({
         {selected ? (
           <>
             <ChainIcon chainId={selected.value} />
-            <span>{selected.label}</span>
+            <span {...stylex.props(styles.chainLabel)}>{selected.label}</span>
           </>
         ) : (
           <span {...stylex.props(styles.triggerPlaceholder)}>{placeholder}</span>

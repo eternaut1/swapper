@@ -9,7 +9,13 @@ export interface IBridgeProvider {
     params: Pick<QuoteParams, 'sourceToken' | 'destChain' | 'destToken'>,
   ): Promise<boolean>;
 
-  // Get quote from bridge provider
+  /**
+   * Get quote from bridge provider.
+   * Implementations should populate `priceImpact` on the returned BridgeQuote
+   * by mapping the provider's native price impact field (e.g. DeBridge's
+   * `estimation.usdPriceImpact`, Relay's `details.swapImpact.percent`) to
+   * an absolute percentage number.
+   */
   getQuote(params: QuoteParams): Promise<BridgeQuote>;
 
   // Validate quote is still valid (price drift check)
@@ -49,6 +55,8 @@ export interface BridgeQuote {
   route: RouteInfo;
   estimatedCosts: CostBreakdown;
   rawQuote: DeBridgeRawQuote | RelayRawQuote;
+  /** Price impact percentage reported by the bridge provider (e.g. 0.08 = 0.08%) */
+  priceImpact?: number;
 }
 
 /** Token info returned by bridge provider token-list endpoints */

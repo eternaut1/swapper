@@ -123,6 +123,10 @@ export class RelayProvider implements IBridgeProvider {
         const destAmount = data.details?.currencyOut?.amount || '0';
         const timeEstimate = data.details?.timeEstimate || DEFAULT_RELAY_DURATION_SECS;
 
+        // Relay returns swapImpact.percent as a string (e.g. "-0.08")
+        const rawImpact = data.details?.swapImpact?.percent;
+        const priceImpact = rawImpact != null ? Math.abs(parseFloat(rawImpact)) : undefined;
+
         const quote: BridgeQuote = {
           provider: this.name,
           quoteId: requestId,
@@ -132,6 +136,7 @@ export class RelayProvider implements IBridgeProvider {
           validUntil: new Date(Date.now() + QUOTE_VALIDITY_MS),
           route: this.parseRoute(data, params),
           estimatedCosts: await this.estimateCosts(params),
+          priceImpact,
           rawQuote: {
             ...data,
             _requestParams: {

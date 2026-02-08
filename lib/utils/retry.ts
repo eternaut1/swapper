@@ -230,9 +230,9 @@ export async function retryApiCall<T>(
 ): Promise<T> {
   const execute = () =>
     retryWithBackoff(fn, {
-      maxAttempts: 3,
-      initialDelayMs: 1000,
-      maxDelayMs: 30000,
+      maxAttempts: 2,
+      initialDelayMs: 500,
+      maxDelayMs: 5000,
       shouldRetry: isRetryableError,
       onRetry: (error, attempt, delayMs) => {
         logger.info(`Retrying ${operationName} (attempt ${attempt})`, {

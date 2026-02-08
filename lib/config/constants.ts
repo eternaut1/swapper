@@ -28,7 +28,7 @@ export const RELAY_API_URL = env.RELAY_API_URL;
 export const DEBRIDGE_API_URL = env.DEBRIDGE_API_URL;
 
 // API / HTTP
-export const API_TIMEOUT_MS = 30_000;
+export const API_TIMEOUT_MS = 10_000;
 
 // Quote validity — derived from QUOTE_EXPIRY_SECONDS for consistency
 export const QUOTE_VALIDITY_MS = QUOTE_EXPIRY_SECONDS * 1000;
