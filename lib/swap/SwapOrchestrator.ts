@@ -237,7 +237,17 @@ export class SwapOrchestrator {
           mode: feeToken === 'SOL' ? 'direct' : 'sponsored',
           logs: simulation.logs?.slice(-5),
         });
-        // Don't throw - simulation can fail for various reasons
+
+        // Check for known, actionable errors
+        const logs = simulation.logs?.join(' ') ?? '';
+        if (logs.includes('insufficient funds')) {
+          const tokenLabel = feeToken === 'USDC' ? 'USDC' : 'SOL';
+          throw new AppError(
+            `Insufficient ${tokenLabel} balance to cover the ${userFee.amount.toFixed(2)} ${tokenLabel} fee. Please top up your wallet and try again.`,
+            'INSUFFICIENT_BALANCE',
+            400,
+          );
+        }
       }
 
       // 6. Store in pending cache (NOT database) — persisted only after user signs
