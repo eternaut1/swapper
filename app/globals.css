@@ -1,0 +1,20 @@
+@import '@fontsource-variable/inter';
+
+/**
+ * StyleX styles will be injected here by the PostCSS plugin
+ */
+@stylex;
+
+body {
+  font-family: 'Inter', 'InterVariable', system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(9, 14, 31);
+  color: rgb(255, 255, 255);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}

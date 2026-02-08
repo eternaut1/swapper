@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.relay.link)",
+      "WebFetch(domain:docs.debridge.com)",
+      "Bash(bun add:*)",
+      "Bash(bun run lint:*)",
+      "Bash(bun remove:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(bun tsc:*)",
+      "Bash(bun biome check:*)"
+    ],
+    "deny": ["*.env"]
+  }
+}

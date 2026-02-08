@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Swap {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // User info
+  userWallet String // Solana wallet
+  destWallet String // EVM destination wallet
+
+  // Swap details
+  sourceChain String // "solana"
+  sourceToken String // SPL token mint address
+  sourceAmount String // amount sent
+  destChain String // EVM chain ID
+  destToken String // EVM token address
+  destAmount String // amount received
+
+  // Provider info
+  provider String // "relay" | "debridge"
+  providerId String // provider's order/transaction ID
+  quoteId String?
+
+  // Fees
+  userFeeToken String // "USDC" | "SOL"
+  userFeeAmount String
+  sponsorCostsSol String // in lamports
+
+  // Status
+  status SwapStatus
+  solanaSignature String?
+  evmSignature String?
+  errorMessage String?
+
+  // Metadata
+  estimatedDuration Int? // seconds
+  actualDuration Int? // seconds
+  completedAt DateTime?
+
+  @@index([userWallet])
+  @@index([status])
+  @@index([provider])
+  @@index([createdAt])
+}
+
+enum SwapStatus {
+  PENDING // Quote received, not executed
+  BUILDING // Building transaction
+  AWAITING_USER_SIG // Waiting for user signature
+  SUBMITTED // Submitted to Solana
+  BRIDGING // In progress on bridge
+  COMPLETED // Successfully completed
+  FAILED // Failed
+  CANCELLED // Cancelled by user
+}
