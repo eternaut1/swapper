@@ -1,4 +1,5 @@
 [![CI](https://github.com/eternaut1/swapper/actions/workflows/ci.yml/badge.svg)](https://github.com/eternaut1/swapper/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/eternaut1/swapper/branch/main/graph/badge.svg)](https://codecov.io/gh/eternaut1/swapper)
 
 **[Live Demo](https://swapper-production.up.railway.app)**
 
